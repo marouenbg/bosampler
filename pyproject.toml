@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bosampler"
+version = "0.1.0"
+description = "Blend-and-Optimize Sampler: coverage sampling of convex and loopless flux spaces"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "Marouen Ben Guebila" }]
+keywords = ["metabolic networks", "flux sampling", "constraint-based modeling",
+            "loopless", "coverage"]
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+# The sampler itself needs only numpy and scipy; cobra and gurobipy are
+# imported lazily, inside the functions that need them, so the convex path
+# runs with no solver installed at all.
+dependencies = ["numpy>=1.21", "scipy>=1.7"]
+
+[project.optional-dependencies]
+loopless = ["cobra>=0.26", "gurobipy>=9.5"]
+
+[tool.setuptools]
+packages = ["bosampler"]
