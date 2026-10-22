@@ -3,7 +3,7 @@
 **Blend-and-Optimize Sampler** — coverage sampling of convex and nonconvex constraint-based
 metabolic models.
 
-Coverage samplers aim to span the *support* of the flux space by targeting the largest remaining gap in each
+Coverage samplers aim to span the support of the flux space by targeting the largest remaining gap in each
 reaction's marginal. They require solving a quadratic program to target each gap.
 
 BOSampler is a solverless gap sampler, that make no solver calls in the convex case and minimal calls to simple linear
