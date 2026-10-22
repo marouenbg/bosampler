@@ -9,6 +9,8 @@ description = "Blend-and-Optimize Sampler: coverage sampling of convex and loopl
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [{ name = "Marouen Ben Guebila" }]
+license = "MIT"
+license-files = ["LICENSE"]
 keywords = ["metabolic networks", "flux sampling", "constraint-based modeling",
             "loopless", "coverage"]
 classifiers = [

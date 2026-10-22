@@ -60,3 +60,9 @@ Interpolate(P, act, seed, oracle=LooplessOracle(...)) # loopless
 The nonconvex application only models loopless flux distributions. But a general recipe is available for the general case which consists of
 a certification, a prefilter, then verification.
 
+## License
+
+MIT — see [LICENSE](LICENSE). The optional dependencies keep their own
+terms: cobrapy is LGPL/GPL and gurobipy is commercial, so installing
+`.[loopless]` brings those in. Both are imported lazily and neither is
+bundled here.
