@@ -62,7 +62,4 @@ a certification, a prefilter, then verification.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). The optional dependencies keep their own
-terms: cobrapy is LGPL/GPL and gurobipy is commercial, so installing
-`.[loopless]` brings those in. Both are imported lazily and neither is
-bundled here.
+MIT — see [LICENSE](LICENSE). The optional dependencies' licenses for cobrapy is LGPL/GPL while gurobipy is commercial.
