@@ -1,39 +1,25 @@
 # BOSampler
 
-**Blend-and-Optimize Sampler** — coverage sampling of constraint-based
-metabolic models, convex and loopless, with one sampling loop for both.
+**Blend-and-Optimize Sampler** — coverage sampling of convex and nonconvex constraint-based
+metabolic models.
 
-Coverage samplers aim to span the *support* of the flux space rather than
-reproduce its density: they target the largest remaining gap in each
-reaction's marginal. The established method, gapsplit, solves a quadratic
-program for every sample, which does not scale to genome-scale human models.
+Coverage samplers aim to span the *support* of the flux space by targeting the largest remaining gap in each
+reaction's marginal. They require solving a quadratic program to target each gap.
 
-BOSampler reaches each target by **affine blending** instead. Given two
-feasible vectors that straddle the target value in the chosen reaction,
-their convex combination hits that value exactly and is feasible for free:
-the stoichiometry is linear and the box is convex. The convex sampler
-therefore makes **no solver calls at all**.
-
-For non-convex feasible sets — the loopless flux space being a union of
-polytopes, one per sign pattern — a blend can land on a pattern neither
-endpoint had, so an optional **membership oracle** certifies candidates
-before they are accepted. Candidates are ranked by the coverage they would
-buy *before* the oracle is consulted, so each certificate call is spent on
-the most valuable sample available.
+BOSampler is a solverless gap sampler, that make no solver calls in the convex case and minimal calls to simple linear
+programs in the nonconvex. BOSampler enables discovery of novel metabolic flux distributions by combining speed per sample of uniform samplers
+with coverage of gap samplers, which enables mapping large genome-scale models.
 
 ## Install
 
 ```bash
 pip install -e .                 # convex sampling: numpy + scipy only
-pip install -e ".[loopless]"     # adds cobra and gurobipy for the oracle
+pip install -e ".[loopless]"     # adds cobra and gurobipy for the nonconvex
 ```
 
-`cobra` and `gurobipy` are imported lazily, inside the functions that need
-them, so the convex path runs with no solver installed.
 
 ## Use
 
-One call, returning a benchmark row:
 
 ```python
 from bosampler import sample
@@ -71,12 +57,6 @@ Interpolate(P, act, seed, oracle=LooplessOracle(...)) # loopless
 | `models` | model loaders, including a Recon 2 `.mat` path that bypasses cobra's reader |
 | `run` | `sample()`, the one-call entry point |
 
-The oracle runs a three-tier ladder so the exact certificate is the last
-resort: a cache keyed on the sign pattern, then a sound-but-incomplete
-topological prefilter, then the exact LP. On iND750 the prefilter removes a
-third of the solves; on genome scale the cache dominates.
+The nonconvex application only models loopless flux distributions. But a general recipe is available for the general case which consists of
+a certification, a prefilter, then verification.
 
-## Status
-
-Research code accompanying a manuscript in preparation. The API is not yet
-stable and there is no test suite. No license file yet — ask before reuse.
